@@ -26,6 +26,10 @@
       misc styles, nothing to do with CSS variables
     */
 
+    img {
+      transition: all 300ms ease;
+    }
+
     body {
       text-align: center;
       background: #193549;
@@ -45,6 +49,36 @@
   </style>
 
   <script>
+    const imgHook = document.querySelector('img');
+    const arrInput = document.querySelectorAll('input');
+
+    // set defaults to see immediate changes
+    imgHook.style.webkitFilter = `blur(50px)`;
+    imgHook.style.padding = `20px`;
+    imgHook.style.backgroundColor = '#ce0891';
+
+    function handleChange(e) {
+      let value = e.target.value;
+      let targetStyle = e.target.id;
+      let sizing = e.target.getAttribute('data-sizing') || '';
+      let finalVal = value + sizing;
+
+      switch(targetStyle){
+        case 'blur':
+          console.log(finalVal)
+          imgHook.style.webkitFilter = `blur(${finalVal})`;
+          break;
+        case 'spacing':
+          imgHook.style.padding = `${value}${sizing}`;
+          break;
+        case 'base':
+          imgHook.style.backgroundColor = finalVal;
+      }
+    }
+
+    arrInput.forEach(input => {
+      input.addEventListener('change', handleChange);
+    });
   </script>
 
 </body>
