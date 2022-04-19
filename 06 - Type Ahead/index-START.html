@@ -14,9 +14,74 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const suggestionsHook = document.querySelector('.suggestions');
+  suggestionsHook.innerHTML = '';
 
-</script>
+  let arrCityStates = [];
+  axios.get(endpoint)
+  .then(res => {
+    arrCityStates.push(...res.data);
+  });
+
+  function handleInputValue(e) {
+    findCityState(e.target.value);
+  }
+
+  const search = document.querySelector('.search');
+
+  search.addEventListener('keypress', handleInputValue);
+  search.addEventListener('change', handleInputValue);
+
+  function highlightCityState(searchKey, cityState) {
+    let lowerCityState = cityState.toLowerCase();
+    let lowerSearch = searchKey.toLowerCase();
+
+    if (lowerCityState.indexOf(lowerSearch) === -1) return cityState;
+
+    let splitHighlightedCity = cityState.toLowerCase().split(searchKey);
+    let wrappedHighlightedCity = '';
+
+    if (splitHighlightedCity[0] === '') {
+      wrappedHighlightedCity = `
+        <span class="hl">${searchKey.charAt(0).toUpperCase() + searchKey.slice(1)}</span>${splitHighlightedCity[1]}
+      `;
+    } else if (splitHighlightedCity[1] === '') {
+      wrappedHighlightedCity = `
+        ${splitHighlightedCity[0].charAt(0).toUpperCase() + splitHighlightedCity[0].slice(1)}<span class="hl">${searchKey}</span>
+      `;
+    } else if (splitHighlightedCity[0] !== '' && splitHighlightedCity[1] !== '') {
+      wrappedHighlightedCity = `
+        ${splitHighlightedCity[0].charAt(0).toUpperCase() + splitHighlightedCity[0].slice(1)}<span class="hl">${searchKey.toLowerCase()}</span>${splitHighlightedCity[1] || ''}
+      `;
+    } else if (splitHighlightedCity.length === 0) {
+      console.log('yes')
+      wrappedHighlightedCity = `
+        <span class="hl">${searchKey.charAt(0).toUpperCase() + searchKey.slice(1)}</span>
+      `;
+    }
+
+    return wrappedHighlightedCity;
+  }
+
+  function findCityState(searchKey) {
+    let filteredCityState = arrCityStates.filter(cityState => {
+      return cityState.city.toLowerCase().indexOf(searchKey.toLowerCase()) != -1 || cityState.state.toLowerCase().indexOf(searchKey.toLowerCase()) != -1;
+    });
+
+    suggestionsHook.innerHTML = filteredCityState.map(({city, state, population}) => {
+      let highlightedCity = highlightCityState(searchKey, city);
+      let highlightedState = highlightCityState(searchKey, state);
+      return `
+        <li>
+          <span class="name">${highlightedCity}, ${highlightedState}</span>
+          <span class="population">${population}</span>
+        </li>
+      `;
+    }).join('');
+  }
+  </script>
 </body>
 </html>
