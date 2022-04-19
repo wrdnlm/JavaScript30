@@ -18,28 +18,52 @@
     }
 
     // Regular
+    console.log('this is regular')
 
     // Interpolated
+    let age = 23;
+    console.log('I am %s years old!', age);
 
     // Styled
+    console.log('%cI am a sample styled console log', 'color: red; font-size: 23px');
 
     // warning!
+    console.warn('I am a warning!');
 
     // Error :|
+    console.error('I am an error!')
 
     // Info
+    console.info('I am a sample info!');
 
     // Testing
+    console.assert(age > 24, 'Not yet 24yrs old');
 
     // clearing
+    console.clear();
 
     // Viewing DOM Elements
+    let pTag = document.querySelector('p');
+    console.log(pTag);
 
     // Grouping together
+    console.log('This is the start of a grouped logs');
+    console.group();
+    console.log('I am the first');
+    console.log('Then second came');
+    console.log('And third came last!');
+    console.groupEnd();
 
     // counting
+    dogs.forEach(dog => {
+      console.count(dog.name);
+    });
 
     // timing
+    console.time('Settimeout');
+    setTimeout(function() {
+      console.timeEnd('Settimeout');
+    }, 900);
 
   </script>
 </body>
