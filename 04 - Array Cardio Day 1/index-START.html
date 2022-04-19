@@ -70,13 +70,13 @@
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
-    const sortedByLastName = inventors.sort((inventor1, inventor2) => {
-      if (inventor1.last > inventor2.last) {
+    const sortedByLastName = people.sort((people1, people2) => {
+      if (people1 > people2) {
         return 1;
       }
-      if (inventor2.last > inventor1.last) {
+      if (people2 > people1) {
         return -1;
-      }
+      }ß
       return 0;
     });
     console.log(sortedByLastName)
