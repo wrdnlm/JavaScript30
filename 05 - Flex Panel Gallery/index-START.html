@@ -26,6 +26,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -43,6 +44,10 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -64,15 +69,28 @@
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
     }
-    
+
+    .panel p:first-of-type {
+      transform: translateY(-100vh);
+    }
+
+    .panel p:last-of-type {
+      transform: translateY(100vh);
+    }
+
     .panel p:nth-child(2) {
       font-size: 4em;
     }
 
     .panel.open {
+      flex-basis: 30%;
       font-size: 40px;
     }
 
+    .text-transit p:first-of-type,
+    .text-transit p:last-of-type {
+      transform: translate(0);
+    }
   </style>
 
 
@@ -105,7 +123,24 @@
   </div>
 
   <script>
+    const arrPanels = document.querySelectorAll('.panel');
 
+    function handlePanelOpen(e) {
+      e.target.classList.toggle('open');
+    }
+
+    function handleTextTransition(e) {
+      let propertyName = e.propertyName;
+
+      if (propertyName === 'flex-basis') {
+        e.target.classList.toggle('text-transit')
+      }
+    }
+
+    arrPanels.forEach(panel => {
+      panel.addEventListener('click', handlePanelOpen);
+      panel.addEventListener('transitionend', handleTextTransition);
+    });
   </script>
 
 
