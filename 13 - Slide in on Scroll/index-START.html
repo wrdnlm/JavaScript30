@@ -58,6 +58,31 @@
       };
     }
 
+    const handleImageAnimation = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        } else {
+          entry.target.classList.remove('active');
+        }
+      });
+    }
+
+    const arrImages = document.querySelectorAll('img');
+    const arrImageHalvedSize = [];
+    arrImages.forEach(image => {
+      image.addEventListener('load', e => {
+        let imageHalvedSize = `-${parseFloat(window.getComputedStyle(image).height) / 2}px`;
+        let options = {
+          root: null,
+          rootMargin: '30px',
+          threshold: 0
+        };
+
+        let imagesObserver = new IntersectionObserver(handleImageAnimation, options);
+        imagesObserver.observe(image);
+      });
+    });
   </script>
 
   <style>
