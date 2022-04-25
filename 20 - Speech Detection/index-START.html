@@ -12,6 +12,29 @@
 <script>
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  const recognizer = new SpeechRecognition();
+  recognizer.interimResults = true;
+
+  const wordsHook = document.querySelector('.words');
+  let p = document.createElement('p');
+  wordsHook.appendChild(p);
+
+  recognizer.addEventListener('result', e => {
+    const transcript = e.results[0][0].transcript;
+    const bannedWords = /beer|gin/gi;
+    const filteredWords = transcript.replace(bannedWords, '⚠️');
+
+    p.textContent = filteredWords;
+
+    if (e.results[0].isFinal) {
+      p = document.createElement('p');
+      wordsHook.appendChild(p);
+    }
+  });
+
+  recognizer.addEventListener('end', e => recognizer.start());
+  recognizer.start();
+
 
 </script>
 
