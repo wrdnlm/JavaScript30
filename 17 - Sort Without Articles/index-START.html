@@ -47,6 +47,22 @@
 
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+const commonArticles = ['the', 'a', 'an'];
+
+const sortedBands = bands.sort((b1, b2) => {
+  const regex = /^(the |an |a )/i;
+  const filteredWord1 = b1.toLowerCase().trim().replace(regex, '');
+  const filteredWord2 = b2.toLowerCase().trim().replace(regex, '');
+
+  return filteredWord1 > filteredWord2 ? 1 : -1;
+});
+
+const bandsHook = document.querySelector('#bands');
+bandsHook.innerHTML = sortedBands.map(band => {
+  return `
+    <li>${band}</li>
+  `;
+}).join('');
 
 
 </script>
