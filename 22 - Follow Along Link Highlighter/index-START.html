@@ -27,6 +27,21 @@
 
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const arrLinksToHighlight = document.querySelectorAll('a');
+    document.body.insertAdjacentHTML('beforeend', `<div class="highlight"></div>`);
+    const highlighter = document.querySelector('.highlight');
+    
+    function highlightText(e) {
+      const { width, height, top, left } = e.currentTarget.getBoundingClientRect();
+
+      highlighter.style.width = `${width}px`;
+      highlighter.style.height = `${height}px`;
+      highlighter.style.transform = `translate(${left + window.scrollX}px, ${top + window.scrollY}px)`;
+    }
+
+    arrLinksToHighlight.forEach(link => {
+      link.addEventListener('mouseenter', highlightText);
+    });
   </script>
 </body>
 </html>
