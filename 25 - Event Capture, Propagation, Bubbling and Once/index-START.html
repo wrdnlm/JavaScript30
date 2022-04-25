@@ -42,6 +42,20 @@
 
 <button></button>
 <script>
+  const arrDiv = document.querySelectorAll('div');
+  const btn = document.querySelector('button');
+
+  function logClasses(e) {
+    console.log(e.currentTarget.classList.value);
+    // e.stopPropagation();
+  }
+  arrDiv.forEach(div => div.addEventListener('click', logClasses, {
+    capture: true
+  }));
+
+  btn.addEventListener('click', () => {
+    console.log('yey!');
+  }, { once: true });
 
 </script>
 </body>
