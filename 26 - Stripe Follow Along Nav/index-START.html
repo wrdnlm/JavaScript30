@@ -220,6 +220,43 @@
 </style>
 
 <script>
+  const dropdownBG = document.querySelector('.dropdownBackground');
+  const arrLiHook = document.querySelectorAll('.cool > li');
+  
+  function handleMouseEnter(e) {
+    const dropdown = e.currentTarget.querySelector('.dropdown');
+    let el = e.currentTarget;
+    let yOffset = screen.width < 768 ? 10 : 20;
+
+    el.classList.add('trigger-enter');
+    el.classList.add('trigger-enter-active')
+    setTimeout(() => el.classList.contains('trigger-enter') && el.classList.add('trigger-enter-active'), 150);
+    dropdownBG.classList.add('open');
+
+    let dropdownDime = dropdown.getBoundingClientRect();
+    let elHeight = window.getComputedStyle(el).height;
+
+    let coords = {
+      top: dropdownDime.top - (el.offsetHeight - yOffset),
+      left: dropdownDime.left
+    };
+
+    dropdownBG.style.width = window.getComputedStyle(dropdown).width;
+    dropdownBG.style.height = window.getComputedStyle(dropdown).height;
+    dropdownBG.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+  }
+
+  function handleMouseLeave(e) {
+    let el = e.currentTarget;
+    el.classList.remove('trigger-enter');
+    el.classList.remove('trigger-enter-active');
+    dropdownBG.classList.remove('open');
+  }
+
+  arrLiHook.forEach(li => {
+    li.addEventListener('mouseenter', handleMouseEnter);
+    li.addEventListener('mouseleave', handleMouseLeave);
+  });
 </script>
 
 </body>
