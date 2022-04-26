@@ -15,6 +15,26 @@
   </div>
 
 <script>
+  const videoHook = document.querySelector('video.flex');
+  const speedHook = document.querySelector('.speed');
+  const speedBar = document.querySelector('.speed-bar');
+  const shHeight = parseFloat(window.getComputedStyle(speedHook).height);
+  let shTop = speedHook.getBoundingClientRect().top;
+
+  function handlePlaybackRate(e) {
+    let speedVal = (e.clientY - shTop) / shHeight;
+    let percentVal = `${Math.round(speedVal * 100)}%`;
+    let pbRate;
+    speedBar.style.height = percentVal;
+    if ((speedVal * 4) < 0.4) {
+      pbRate = 0.4;
+    } else {
+      pbRate = speedVal * 4;
+    }
+    speedBar.textContent = `${pbRate.toFixed(2)}x`;
+    videoHook.playbackRate = pbRate;
+  }
+  speedHook.addEventListener('mousemove', handlePlaybackRate);
 </script>
 </body>
 </html>
