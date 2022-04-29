@@ -49,6 +49,7 @@
 
   function handleSpeak(startOver = true) {
     speechSynthesis.cancel();
+    msg.text = document.querySelector('textarea[name="text"]').value;
     startOver ? speechSynthesis.speak(msg) : '';
   }
 
