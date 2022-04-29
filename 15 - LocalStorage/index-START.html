@@ -65,11 +65,11 @@
     fetchTapas();
 
     function handleItemCheck(e) {
-      let tapaIndex = +e.target.getAttribute('data-index');
-      let cbTapa = e.target;
+      let tapaIndex = +e.target.getAttribute('data-index') || +e.target.getAttribute('for');
 
       if (tapaIndex !== null || tapaIndex !== undefined) {
-        items[tapaIndex].checked = cbTapa.checked;
+        console.log(tapaIndex, items[tapaIndex])
+        items[tapaIndex].checked = !items[tapaIndex].checked;
         localStorage.setItem('tapas', JSON.stringify(items));
         fetchTapas();
       }
@@ -81,7 +81,11 @@
       let tapaName = e.currentTarget.elements[0].value.trim();
 
       if (tapaName !== '') {
-        items.push({name: tapaName, checked: false});
+        const newItem = {
+          name: tapaName,
+          checked: false
+        }
+        items.push(newItem);
         localStorage.setItem('tapas', JSON.stringify(items));
         fetchTapas();
       }
