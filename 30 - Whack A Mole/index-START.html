@@ -42,6 +42,7 @@
   function startGame() {
     isTimeUp = false;
     !isTimeUp && showMoles();
+    setTimeout(() => isTimeUp = true, 10000);
   }
 
   function showMoles() {
@@ -53,7 +54,6 @@
       holes[randomHoleIndex].classList.remove('up');
       !isTimeUp && showMoles();
     }, randomTimeLimit);
-    setTimeout(() => isTimeUp = true, 10000);
   }
 
   function handleMoleClick(e) {
