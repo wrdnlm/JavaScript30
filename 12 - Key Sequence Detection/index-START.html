@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+  let arrKeyPressed = [];
+  let magicWord = 'drew';
+
+  window.addEventListener('keyup', e => {
+    if (arrKeyPressed.length >= magicWord.length) {
+      arrKeyPressed.shift();
+    }
+    arrKeyPressed.push(e.key);
+    console.log(arrKeyPressed)
+
+    if (arrKeyPressed.join('').includes(magicWord)) {
+      cornify_add();
+    }
+  });
+</script>
+</body>
+</html>
