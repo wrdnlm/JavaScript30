@@ -58,16 +58,21 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  const arrKeyCodes = [];
-  const arrAudio = document.querySelectorAll('audio[data-key]');
+  const arrAudio = [...document.querySelectorAll('audio[data-key]')];
 
-  document.querySelectorAll('.key').forEach(key => {
-    arrKeyCodes.push(key.getAttribute('data-key'));
+  const audios = {};
+  [...document.querySelectorAll('audio[data-key]')].forEach(elem => {
+    audios[elem.dataset.key] = elem;
+  });
+
+  const keys = {};
+  [...document.querySelectorAll('.key')].forEach(elem => {
+    keys[elem.dataset.key] = elem;
   });
 
   function handleAudioEnd(e) {
     let audioKeycode = e.currentTarget.getAttribute('data-key');
-    document.querySelector(`.key[data-key='${audioKeycode}']`).classList.remove('playing');
+    keys[audioKeycode].classList.remove('playing');
   }
 
   arrAudio.forEach(audio => {
@@ -79,9 +84,9 @@
 
     let keyPressed = e.keyCode;
 
-    if (arrKeyCodes.includes(`${keyPressed}`)) {
-      document.querySelector(`audio[data-key='${keyPressed}']`).play();
-      document.querySelector(`.key[data-key='${keyPressed}']`).classList.add('playing');
+    if (audios[keyPressed]) {
+      audios[keyPressed].play();
+      keys[keyPressed].classList.add('playing');
     }
   }
 
